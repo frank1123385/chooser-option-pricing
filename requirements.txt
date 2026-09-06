@@ -1,0 +1,5 @@
+yfinance
+alpha-vantage
+fredapi
+python-dotenv
+pandas
