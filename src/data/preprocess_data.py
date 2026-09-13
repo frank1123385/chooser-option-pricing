@@ -93,6 +93,32 @@ for column in numeric_columns:
 print("\nOutlier flags created.")
 
 # ==============================
+# Dividend Growth Feature
+# ==============================
+
+# Load JPM annual dividend data
+dividend_file = "data/raw/jpm_dividends.csv"
+dividend_df = pd.read_csv(dividend_file)
+
+# Calculate year-over-year dividend growth
+dividend_df["Dividend_Growth"] = (
+    dividend_df["Annual_Dividend"].pct_change()
+)
+
+# Map annual dividend growth to daily JPM data
+df["Year"] = df["Date"].dt.year
+
+df["Dividend_Growth"] = df["Year"].map(
+    dividend_df.set_index("Year")["Dividend_Growth"]
+)
+
+# Remove temporary Year column
+df = df.drop(columns=["Year"])
+
+print("\nDividend Growth feature created.")
+print(df["Dividend_Growth"].describe())
+
+# ==============================
 # Feature Engineering
 # Traditional Features
 # ==============================
@@ -180,6 +206,7 @@ print([
 
 # Remove rows with insufficient history for feature calculation
 feature_columns = [
+    "Dividend_Growth",
     "Daily_Return",
     "Rolling_Volatility_5D",
     "Rolling_Volatility_20D",
