@@ -1,0 +1,26 @@
+{
+    "paper_baseline": {
+        "S0": 156.7,
+        "risk_free_rate": 0.0015,
+        "sigma": 0.282,
+        "strike": 150.0,
+        "T1": 0.5,
+        "T2": 1.0,
+        "n_simulations": 10000,
+        "seed": 42
+    },
+    "updated_jpm": {
+        "valuation_date": "2024-12-31",
+        "S0": 231.45,
+        "risk_free_rate": 0.0458,
+        "sigma": 0.3075,
+        "strike": 150.0,
+        "T1": 0.5,
+        "T2": 1.0,
+        "n_simulations": 10000,
+        "seed": 42,
+        "volatility_source": "60-day rolling daily volatility annualized by sqrt(252)",
+        "price_source": "JPM Adjusted Close",
+        "risk_free_rate_source": "10-Year Treasury Yield (DGS10)"
+    }
+}
