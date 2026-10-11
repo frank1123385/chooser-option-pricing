@@ -1,0 +1,4 @@
+Dataset,Rows,Start_Date,End_Date
+Train,1190,2018-03-29,2022-12-16
+Validation,255,2022-12-19,2023-12-22
+Test,255,2023-12-26,2024-12-30
