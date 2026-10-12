@@ -1,0 +1,43 @@
+Approach,Feature,Mean_Absolute_SHAP
+Approach A - Next-day Absolute Return,Sentiment_Score,0.0034305960793663344
+Approach A - Next-day Absolute Return,DGS10,0.0007775272920696476
+Approach A - Next-day Absolute Return,Price_Momentum_20D,0.00042256348415326754
+Approach A - Next-day Absolute Return,VIX_Change_20D,0.00041945464096804637
+Approach A - Next-day Absolute Return,Rolling_Volatility_5D,0.00037100636725028466
+Approach A - Next-day Absolute Return,Volume,0.00032570308104748236
+Approach A - Next-day Absolute Return,Rolling_Volatility_60D,0.00023996482411711766
+Approach A - Next-day Absolute Return,Adj Close,0.00020204049269585998
+Approach A - Next-day Absolute Return,VIXCLS,0.00019738837873532677
+Approach A - Next-day Absolute Return,VIX_JPM_Correlation_20D,0.0001715444964604998
+Approach A - Next-day Absolute Return,Interest_Rate_Momentum_20D,0.00015550913723169825
+Approach A - Next-day Absolute Return,Treasury_Yield_Change_20D,0.0001373766399950144
+Approach A - Next-day Absolute Return,Volume_Change,0.00012426607716655138
+Approach A - Next-day Absolute Return,Rolling_Volatility_20D,8.591178226263126e-05
+Approach A - Next-day Absolute Return,Daily_Return,6.31301273574526e-05
+Approach A - Next-day Absolute Return,Close,1.5134250230240396e-05
+Approach A - Next-day Absolute Return,Close_outlier,1.4487059184159486e-05
+Approach A - Next-day Absolute Return,DGS10_outlier,4.724271165810815e-06
+Approach A - Next-day Absolute Return,Adj Close_outlier,2.7040079318678953e-06
+Approach A - Next-day Absolute Return,VIXCLS_outlier,6.190221445670273e-07
+Approach A - Next-day Absolute Return,Volume_outlier,5.298744295300445e-07
+Approach A - Next-day Absolute Return,Dividend_Growth,0.0
+Approach B - Next-day Return,Volume,0.007207090122652035
+Approach B - Next-day Return,VIXCLS,0.005119334175839916
+Approach B - Next-day Return,DGS10,0.00016698524716014977
+Approach B - Next-day Return,Rolling_Volatility_5D,0.0001443209262603523
+Approach B - Next-day Return,VIX_Change_20D,0.00012136609402118122
+Approach B - Next-day Return,Price_Momentum_20D,9.293359090878176e-05
+Approach B - Next-day Return,Daily_Return,8.799477321345064e-05
+Approach B - Next-day Return,Volume_Change,6.63757835044636e-05
+Approach B - Next-day Return,Rolling_Volatility_60D,5.866166160894236e-05
+Approach B - Next-day Return,Sentiment_Score,4.744923313299302e-05
+Approach B - Next-day Return,Volume_outlier,4.0669132792111854e-05
+Approach B - Next-day Return,Interest_Rate_Momentum_20D,2.832398646140629e-05
+Approach B - Next-day Return,VIX_JPM_Correlation_20D,2.1579850203735486e-05
+Approach B - Next-day Return,VIXCLS_outlier,2.064182776618604e-05
+Approach B - Next-day Return,Rolling_Volatility_20D,2.0409995928527016e-05
+Approach B - Next-day Return,Close_outlier,1.2531959968645127e-05
+Approach B - Next-day Return,Treasury_Yield_Change_20D,1.041364670069495e-05
+Approach B - Next-day Return,Adj Close_outlier,4.266692393015744e-06
+Approach B - Next-day Return,Dividend_Growth,0.0
+Approach B - Next-day Return,DGS10_outlier,0.0

@@ -1,0 +1,5 @@
+Approach,Split,Model,MAE,RMSE,R2
+A - Absolute-return proxy,Validation,Training-mean baseline,0.008465446087489446,0.010259358279021885,-0.3874709618443455
+A - Absolute-return proxy,Validation,Tuned Random Forest,0.006425886184911084,0.008862833781760915,-0.03544901242240095
+A - Absolute-return proxy,Test,Training-mean baseline,0.008762267541833294,0.012368734532052903,-0.11293572344260316
+A - Absolute-return proxy,Test,Tuned Random Forest,0.007219769779957444,0.011856758300628755,-0.022707591473550837
