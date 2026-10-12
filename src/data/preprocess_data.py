@@ -1,210 +1,216 @@
+
+from pathlib import Path
+
+import numpy as np
 import pandas as pd
 
-# Load merged data
-input_file = "data/processed/jpm_merged.csv"
-df = pd.read_csv(input_file)
 
-# Convert Date to datetime
-df["Date"] = pd.to_datetime(df["Date"])
+# ==============================
+# Paths
+# ==============================
 
-# Convert Volume from string to numeric
-df["Volume"] = (
-    df["Volume"]
-    .astype(str)
-    .str.replace(",", "", regex=False)
-    .astype(float)
-)
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
-# Sort by date
-df = df.sort_values("Date").reset_index(drop=True)
+INPUT_FILE = PROJECT_ROOT / "data" / "processed" / "jpm_merged.csv"
+DIVIDEND_FILE = PROJECT_ROOT / "data" / "raw" / "jpm_dividends.csv"
+OUTPUT_FILE = PROJECT_ROOT / "data" / "processed" / "jpm_features.csv"
 
-# Check data types
-print(df.dtypes)
 
-# Check missing values
-print("\nMissing values:")
-print(df.isna().sum())
+# ==============================
+# Load and validate merged data
+# ==============================
 
-# Check duplicate dates
-print("\nDuplicate dates:", df["Date"].duplicated().sum())
+df = pd.read_csv(INPUT_FILE)
 
-# Detect outliers using IQR method
-numeric_columns = ["Close", "Adj Close", "Volume", "DGS10", "VIXCLS"]
-
-print("\nIQR Outlier Detection:")
-
-for column in numeric_columns:
-    Q1 = df[column].quantile(0.25)
-    Q3 = df[column].quantile(0.75)
-    IQR = Q3 - Q1
-
-    lower_bound = Q1 - 1.5 * IQR
-    upper_bound = Q3 + 1.5 * IQR
-
-    outliers = df[
-        (df[column] < lower_bound) |
-        (df[column] > upper_bound)
-    ]
-
-    print(
-        f"{column}: {len(outliers)} outliers "
-        f"(lower={lower_bound:.2f}, upper={upper_bound:.2f})"
-    )
-
-# Time alignment
-df = df.sort_values("Date").reset_index(drop=True)
-
-# Remove duplicate dates if any
-df = df.drop_duplicates(subset="Date")
-
-# Handle missing values using interpolation
-interpolation_columns = [
-    "Close",
-    "Adj Close",
-    "Volume",
-    "DGS10",
-    "VIXCLS"
+required_columns = [
+    "Date", "Close", "Adj Close", "Volume", "DGS10", "VIXCLS"
 ]
 
-df[interpolation_columns] = (
-    df[interpolation_columns]
-    .interpolate(method="linear")
-    .ffill()
-    .bfill()
+missing_columns = [c for c in required_columns if c not in df.columns]
+if missing_columns:
+    raise ValueError(f"Missing required columns: {missing_columns}")
+
+df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+
+for column in ["Close", "Adj Close", "Volume", "DGS10", "VIXCLS"]:
+    df[column] = pd.to_numeric(
+        df[column].astype(str).str.replace(",", "", regex=False),
+        errors="coerce",
+    )
+
+df = (
+    df.dropna(subset=["Date"])
+    .sort_values("Date")
+    .drop_duplicates(subset="Date", keep="last")
+    .reset_index(drop=True)
 )
 
-print("\nMissing values after interpolation:")
-print(df[interpolation_columns].isna().sum())
+numeric_columns = ["Close", "Adj Close", "Volume", "DGS10", "VIXCLS"]
 
-# Create IQR-based outlier flags
+# Treat infinite values as missing.
+df[numeric_columns] = df[numeric_columns].replace(
+    [np.inf, -np.inf], np.nan
+)
+
+print("Data types:")
+print(df.dtypes)
+
+print("\nMissing values before cleaning:")
+print(df[required_columns].isna().sum())
+
+print("\nDuplicate dates:", df["Date"].duplicated().sum())
+
+
+# ==============================
+# Missing values
+# ==============================
+
+# Forward-fill only: never interpolate using future observations.
+# Rows missing values at the beginning cannot be forward-filled and are dropped.
+df[numeric_columns] = df[numeric_columns].ffill()
+df = df.dropna(subset=numeric_columns).reset_index(drop=True)
+
+print("\nMissing values after forward-fill:")
+print(df[numeric_columns].isna().sum())
+
+
+# ==============================
+# Historical outlier flags
+# ==============================
+
+# Each day's thresholds use only observations before that day.
+# The first 60 observations have no historical threshold and are flagged 0.
+print("\nHistorical IQR outlier detection:")
+
 for column in numeric_columns:
-    Q1 = df[column].quantile(0.25)
-    Q3 = df[column].quantile(0.75)
-    IQR = Q3 - Q1
+    historical_q1 = (
+        df[column].expanding(min_periods=60).quantile(0.25).shift(1)
+    )
+    historical_q3 = (
+        df[column].expanding(min_periods=60).quantile(0.75).shift(1)
+    )
 
-    lower_bound = Q1 - 1.5 * IQR
-    upper_bound = Q3 + 1.5 * IQR
+    historical_iqr = historical_q3 - historical_q1
+    lower_bound = historical_q1 - 1.5 * historical_iqr
+    upper_bound = historical_q3 + 1.5 * historical_iqr
 
-    df[f"{column}_outlier"] = (
-        (df[column] < lower_bound) |
-        (df[column] > upper_bound)
-    ).astype(int)
+    flag_column = f"{column}_outlier"
 
-print("\nOutlier flags created.")
+    df[flag_column] = (
+        (df[column] < lower_bound) | (df[column] > upper_bound)
+    ).fillna(False).astype(int)
+
+    outlier_count = int(df[flag_column].sum())
+
+    print(
+        f"{column}: {outlier_count} outliers "
+        f"({outlier_count / len(df) * 100:.2f}%)"
+    )
+
 
 # ==============================
-# Dividend Growth Feature
+# Dividend growth
 # ==============================
 
-# Load JPM annual dividend data
-dividend_file = "data/raw/jpm_dividends.csv"
-dividend_df = pd.read_csv(dividend_file)
+dividend_df = pd.read_csv(DIVIDEND_FILE)
 
-# Calculate year-over-year dividend growth
+dividend_required = ["Year", "Annual_Dividend"]
+missing_dividend_columns = [
+    c for c in dividend_required if c not in dividend_df.columns
+]
+if missing_dividend_columns:
+    raise ValueError(
+        f"Missing dividend columns: {missing_dividend_columns}"
+    )
+
+dividend_df["Year"] = pd.to_numeric(
+    dividend_df["Year"], errors="coerce"
+)
+dividend_df["Annual_Dividend"] = pd.to_numeric(
+    dividend_df["Annual_Dividend"], errors="coerce"
+)
+
+dividend_df = (
+    dividend_df.dropna(subset=dividend_required)
+    .sort_values("Year")
+    .drop_duplicates(subset="Year", keep="last")
+)
+
 dividend_df["Dividend_Growth"] = (
     dividend_df["Annual_Dividend"].pct_change()
 )
 
-# Map annual dividend growth to daily JPM data
 df["Year"] = df["Date"].dt.year
 
-df["Dividend_Growth"] = df["Year"].map(
-    dividend_df.set_index("Year")["Dividend_Growth"]
+# Conservative one-calendar-year lag.
+# Annual totals have no announcement/availability dates in the source file.
+dividend_growth_by_year = dividend_df.set_index("Year")["Dividend_Growth"]
+
+df["Dividend_Growth"] = (
+    (df["Year"] - 1).map(dividend_growth_by_year)
 )
 
-# Remove temporary Year column
 df = df.drop(columns=["Year"])
 
-print("\nDividend Growth feature created.")
+print("\nDividend growth feature created with a one-year lag.")
 print(df["Dividend_Growth"].describe())
 
+
 # ==============================
-# Feature Engineering
-# Traditional Features
+# Traditional features
 # ==============================
 
-# Daily return
 df["Daily_Return"] = df["Adj Close"].pct_change()
 
-# 5-day rolling volatility
 df["Rolling_Volatility_5D"] = (
     df["Daily_Return"].rolling(window=5).std()
 )
 
-# 20-day rolling volatility
 df["Rolling_Volatility_20D"] = (
     df["Daily_Return"].rolling(window=20).std()
 )
 
-# 60-day rolling volatility
 df["Rolling_Volatility_60D"] = (
     df["Daily_Return"].rolling(window=60).std()
 )
 
-# Price momentum
 df["Price_Momentum_20D"] = (
     df["Adj Close"] / df["Adj Close"].shift(20) - 1
 )
 
-# Volume change
 df["Volume_Change"] = df["Volume"].pct_change()
 
-print("\nTraditional features created:")
-print([
-    "Daily_Return",
-    "Rolling_Volatility_5D",
-    "Rolling_Volatility_20D",
-    "Rolling_Volatility_60D",
-    "Price_Momentum_20D",
-    "Volume_Change"
-])
 
 # ==============================
-# Advanced Features
+# Advanced features
 # ==============================
 
-# VIX-JPM rolling correlation
 df["VIX_JPM_Correlation_20D"] = (
-    df["Daily_Return"]
-    .rolling(window=20)
-    .corr(df["VIXCLS"])
+    df["Daily_Return"].rolling(window=20).corr(df["VIXCLS"])
 )
 
-# Interest rate momentum
 df["Interest_Rate_Momentum_20D"] = (
     df["DGS10"] - df["DGS10"].shift(20)
 )
 
-# VIX-based sentiment proxy
-# Higher VIX -> lower sentiment score
-vix_min = df["VIXCLS"].min()
-vix_max = df["VIXCLS"].max()
+# Fixed-scale VIX-derived proxy, not actual news sentiment.
+df["Sentiment_Score"] = (
+    1 - df["VIXCLS"] / 100
+).clip(0, 1)
 
-df["Sentiment_Score"] = 1 - (
-    (df["VIXCLS"] - vix_min) /
-    (vix_max - vix_min)
-)
-
-# 20-day VIX change
 df["VIX_Change_20D"] = (
     df["VIXCLS"] / df["VIXCLS"].shift(20) - 1
 )
 
-# 20-day Treasury yield change
 df["Treasury_Yield_Change_20D"] = (
     df["DGS10"] - df["DGS10"].shift(20)
 )
 
-print("\nAdvanced features created:")
-print([
-    "VIX_JPM_Correlation_20D",
-    "Interest_Rate_Momentum_20D",
-    "Sentiment_Score",
-    "VIX_Change_20D",
-    "Treasury_Yield_Change_20D"
-])
 
-# Remove rows with insufficient history for feature calculation
+# ==============================
+# Final cleaning and save
+# ==============================
+
 feature_columns = [
     "Dividend_Growth",
     "Daily_Return",
@@ -217,18 +223,19 @@ feature_columns = [
     "Interest_Rate_Momentum_20D",
     "Sentiment_Score",
     "VIX_Change_20D",
-    "Treasury_Yield_Change_20D"
+    "Treasury_Yield_Change_20D",
 ]
 
+# Remove rows without enough historical information for features.
+df = df.replace([np.inf, -np.inf], np.nan)
 df = df.dropna(subset=feature_columns).reset_index(drop=True)
 
-print("\nRows after feature NaN removal:", len(df))
-print("\nFinal missing values:")
-print(df.isna().sum())
+OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+df.to_csv(OUTPUT_FILE, index=False)
 
-# Save cleaned and feature-engineered dataset
-output_file = "data/processed/jpm_features.csv"
-df.to_csv(output_file, index=False)
-
-print(f"\nSaved processed dataset to: {output_file}")
-print(f"Final dataset shape: {df.shape}")
+print("\nFeature engineering completed.")
+print("Rows after feature cleaning:", len(df))
+print("Final missing values in features:")
+print(df[feature_columns].isna().sum())
+print(f"\nSaved to: {OUTPUT_FILE}")
+print("Final dataset shape:", df.shape)
