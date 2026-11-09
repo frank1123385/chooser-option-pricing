@@ -1,0 +1,36 @@
+DIEBOLD-MARIANO FORECAST COMPARISON
+Null hypothesis: the two forecasts have equal expected loss.
+Positive A-minus-B loss difference means Model A has higher loss.
+HAC: Bartlett/Newey-West; max lag = min(horizon - 1, N - 1).
+Finite-sample adjustment: Harvey-Leybourne-Newbold (HLN).
+Multiple testing: Holm adjustment across all comparisons within each loss.
+
+20D | Absolute loss | A=Historical_60D_Baseline vs B=Expanding_Window | N=358 | mean diff=-0.036167 | DM-HLN=-2.3731 | p=0.018169 | Holm p=0.127182 | significant=False
+20D | Squared loss | A=Historical_60D_Baseline vs B=Expanding_Window | N=358 | mean diff=-0.009586 | DM-HLN=-1.5895 | p=0.112833 | Holm p=0.564165 | significant=False
+20D | Absolute loss | A=Historical_60D_Baseline vs B=Rolling_Window_252D | N=358 | mean diff=-0.023288 | DM-HLN=-1.4646 | p=0.143911 | Holm p=0.575642 | significant=False
+20D | Squared loss | A=Historical_60D_Baseline vs B=Rolling_Window_252D | N=358 | mean diff=-0.002651 | DM-HLN=-0.8115 | p=0.417647 | Holm p=0.991804 | significant=False
+20D | Absolute loss | A=Expanding_Window vs B=Rolling_Window_252D | N=358 | mean diff=0.012878 | DM-HLN=1.2890 | p=0.198224 | Holm p=0.594673 | significant=False
+20D | Squared loss | A=Expanding_Window vs B=Rolling_Window_252D | N=358 | mean diff=0.006935 | DM-HLN=1.1572 | p=0.247951 | Holm p=0.991804 | significant=False
+126D | Absolute loss | A=Historical_60D_Baseline vs B=Expanding_Window | N=252 | mean diff=-0.274077 | DM-HLN=-2.2683 | p=0.024162 | Holm p=0.144975 | significant=False
+126D | Squared loss | A=Historical_60D_Baseline vs B=Expanding_Window | N=252 | mean diff=-0.127400 | DM-HLN=-1.9732 | p=0.049572 | Holm p=0.367867 | significant=False
+126D | Absolute loss | A=Historical_60D_Baseline vs B=Rolling_Window_252D | N=252 | mean diff=-0.015520 | DM-HLN=-0.2677 | p=0.789176 | Holm p=0.789176 | significant=False
+126D | Squared loss | A=Historical_60D_Baseline vs B=Rolling_Window_252D | N=252 | mean diff=-0.001877 | DM-HLN=-0.2643 | p=0.791755 | Holm p=0.991804 | significant=False
+126D | Absolute loss | A=Expanding_Window vs B=Rolling_Window_252D | N=252 | mean diff=0.258556 | DM-HLN=2.5268 | p=0.012125 | Holm p=0.097003 | significant=False
+126D | Squared loss | A=Expanding_Window vs B=Rolling_Window_252D | N=252 | mean diff=0.125524 | DM-HLN=2.0055 | p=0.045983 | Holm p=0.367867 | significant=False
+252D | Absolute loss | A=Historical_60D_Baseline vs B=Expanding_Window | N=126 | mean diff=-0.022493 | DM-HLN=-1.1550 | p=0.250276 | Holm p=0.594673 | significant=False
+252D | Squared loss | A=Historical_60D_Baseline vs B=Expanding_Window | N=126 | mean diff=-0.002750 | DM-HLN=-1.1521 | p=0.251465 | Holm p=0.991804 | significant=False
+252D | Absolute loss | A=Historical_60D_Baseline vs B=Rolling_Window_252D | N=126 | mean diff=-0.039250 | DM-HLN=-1.9055 | p=0.059010 | Holm p=0.295050 | significant=False
+252D | Squared loss | A=Historical_60D_Baseline vs B=Rolling_Window_252D | N=126 | mean diff=-0.005124 | DM-HLN=-1.9940 | p=0.048333 | Holm p=0.367867 | significant=False
+252D | Absolute loss | A=Expanding_Window vs B=Rolling_Window_252D | N=126 | mean diff=-0.016756 | DM-HLN=-8.5658 | p=0.000000 | Holm p=0.000000 | significant=True
+252D | Squared loss | A=Expanding_Window vs B=Rolling_Window_252D | N=126 | mean diff=-0.002374 | DM-HLN=-4.9971 | p=0.000002 | Holm p=0.000017 | significant=True
+
+CAUTIONS:
+- 252D: the test sample is short relative to the 251-lag overlap structure; interpret DM p-values cautiously.
+
+Interpretation note:
+These are approximate finite-sample DM tests. The 126D and especially
+252D targets are overlapping forward-window volatility measures, so
+loss differentials can be strongly serially correlated. The 252D test
+has very few out-of-sample observations relative to its overlap horizon;
+do not treat a non-significant or significant p-value as definitive.
+Statistical significance does not establish economic significance.

@@ -1,0 +1,10 @@
+Horizon_Days,Split,Rows,Feature_Start,Feature_End,First_Target_Date,Last_Target_Date,Target
+20,train,735,2019-01-02,2021-11-30,2019-01-31,2021-12-29,Target_Annualized_RV_20D
+20,validation,357,2021-12-30,2023-06-01,2022-01-28,2023-06-30,Target_Annualized_RV_20D
+20,test,358,2023-07-03,2024-12-02,2023-08-01,2024-12-31,Target_Annualized_RV_20D
+126,train,629,2019-01-02,2021-06-30,2019-07-03,2021-12-29,Target_Annualized_RV_126D
+126,validation,251,2021-12-30,2022-12-28,2022-07-01,2023-06-30,Target_Annualized_RV_126D
+126,test,252,2023-07-03,2024-07-02,2024-01-02,2024-12-31,Target_Annualized_RV_126D
+252,train,503,2019-01-02,2020-12-29,2020-01-02,2021-12-29,Target_Annualized_RV_252D
+252,validation,125,2021-12-30,2022-06-29,2022-12-30,2023-06-30,Target_Annualized_RV_252D
+252,test,126,2023-07-03,2023-12-29,2024-07-03,2024-12-31,Target_Annualized_RV_252D

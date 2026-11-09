@@ -1,0 +1,62 @@
+WINDOW SENSITIVITY DIEBOLD-MARIANO TESTS
+H0: Two forecasting strategies have equal expected loss.
+Positive A-minus-B loss difference means Model A has higher loss.
+HAC: Bartlett/Newey-West, max lag = min(horizon - 1, N - 1).
+HLN finite-sample correction applied when mathematically available.
+Holm adjustment applied across all comparisons within each loss type.
+
+20D | Absolute | A=Expanding_Window vs B=Historical_60D_Baseline | N=358 | Mean diff=0.036167 | HLN=2.373090830351826 | p=0.018168863324508133 | Holm p=0.23619522321860573 | Significant=False
+20D | Squared | A=Expanding_Window vs B=Historical_60D_Baseline | N=358 | Mean diff=0.009586 | HLN=1.589498997508633 | p=0.11283293705536948 | Holm p=1.0 | Significant=False
+20D | Absolute | A=Expanding_Window vs B=Rolling_Window_252D | N=358 | Mean diff=0.012878 | HLN=1.289023883587916 | p=0.19822439263325836 | Holm p=1.0 | Significant=False
+20D | Squared | A=Expanding_Window vs B=Rolling_Window_252D | N=358 | Mean diff=0.006935 | HLN=1.157232981197496 | p=0.24795088273488325 | Holm p=1.0 | Significant=False
+20D | Absolute | A=Expanding_Window vs B=Rolling_Window_504D | N=358 | Mean diff=-0.013547 | HLN=-1.2416087750329166 | p=0.21519606649881973 | Holm p=1.0 | Significant=False
+20D | Squared | A=Expanding_Window vs B=Rolling_Window_504D | N=358 | Mean diff=-0.000490 | HLN=-0.07674406615174839 | p=0.9388701389011236 | Holm p=1.0 | Significant=False
+20D | Absolute | A=Expanding_Window vs B=Rolling_Window_756D | N=358 | Mean diff=-0.033778 | HLN=-2.3099678737887226 | p=0.021459756048553588 | Holm p=0.23619522321860573 | Significant=False
+20D | Squared | A=Expanding_Window vs B=Rolling_Window_756D | N=358 | Mean diff=-0.008347 | HLN=-1.1149292052954693 | p=0.2656307411068487 | Holm p=1.0 | Significant=False
+20D | Absolute | A=Historical_60D_Baseline vs B=Rolling_Window_252D | N=358 | Mean diff=-0.023288 | HLN=-1.4645983851463937 | p=0.14391056350491446 | Holm p=1.0 | Significant=False
+20D | Squared | A=Historical_60D_Baseline vs B=Rolling_Window_252D | N=358 | Mean diff=-0.002651 | HLN=-0.8114524281870771 | p=0.4176465782523747 | Holm p=1.0 | Significant=False
+20D | Absolute | A=Historical_60D_Baseline vs B=Rolling_Window_504D | N=358 | Mean diff=-0.049714 | HLN=-2.365802936130037 | p=0.018524671327425368 | Holm p=0.23619522321860573 | Significant=False
+20D | Squared | A=Historical_60D_Baseline vs B=Rolling_Window_504D | N=358 | Mean diff=-0.010076 | HLN=-2.284136541555697 | p=0.022950028915496003 | Holm p=0.34425043373244 | Significant=False
+20D | Absolute | A=Historical_60D_Baseline vs B=Rolling_Window_756D | N=358 | Mean diff=-0.069944 | HLN=-2.83211369076804 | p=0.004886398329453347 | Holm p=0.07818237327125355 | Significant=False
+20D | Squared | A=Historical_60D_Baseline vs B=Rolling_Window_756D | N=358 | Mean diff=-0.017933 | HLN=-3.0107537319008313 | p=0.002791505657684256 | Holm p=0.0446640905229481 | Significant=True
+20D | Absolute | A=Rolling_Window_252D vs B=Rolling_Window_504D | N=358 | Mean diff=-0.026426 | HLN=-3.289743424604077 | p=0.0011026576203228336 | Holm p=0.018745179545488173 | Significant=True
+20D | Squared | A=Rolling_Window_252D vs B=Rolling_Window_504D | N=358 | Mean diff=-0.007424 | HLN=-3.448309282569246 | p=0.0006314929594946214 | Holm p=0.012629859189892428 | Significant=True
+20D | Absolute | A=Rolling_Window_252D vs B=Rolling_Window_756D | N=358 | Mean diff=-0.046656 | HLN=-3.549367626957832 | p=0.0004377986757378484 | Holm p=0.007880376163281272 | Significant=True
+20D | Squared | A=Rolling_Window_252D vs B=Rolling_Window_756D | N=358 | Mean diff=-0.015282 | HLN=-3.6023460721923746 | p=0.00036006357232014195 | Holm p=0.007561335018722981 | Significant=True
+20D | Absolute | A=Rolling_Window_504D vs B=Rolling_Window_756D | N=358 | Mean diff=-0.020230 | HLN=-3.5961833690346543 | p=0.00036838952481135686 | Holm p=0.0069994009714157805 | Significant=True
+20D | Squared | A=Rolling_Window_504D vs B=Rolling_Window_756D | N=358 | Mean diff=-0.007857 | HLN=-3.709836942316291 | p=0.00024042862300418255 | Holm p=0.0052894297060920165 | Significant=True
+126D | Absolute | A=Expanding_Window vs B=Historical_60D_Baseline | N=252 | Mean diff=0.274077 | HLN=2.268275292371256 | p=0.02416248122339271 | Holm p=0.2416248122339271 | Significant=False
+126D | Squared | A=Expanding_Window vs B=Historical_60D_Baseline | N=252 | Mean diff=0.127400 | HLN=1.9731792844125595 | p=0.04957222593334463 | Holm p=0.6417295343326608 | Significant=False
+126D | Absolute | A=Expanding_Window vs B=Rolling_Window_252D | N=252 | Mean diff=0.258556 | HLN=2.5268205940151423 | p=0.012125362154913135 | Holm p=0.1754823747364045 | Significant=False
+126D | Squared | A=Expanding_Window vs B=Rolling_Window_252D | N=252 | Mean diff=0.125524 | HLN=2.005497045400635 | p=0.04598335310395257 | Holm p=0.6417295343326608 | Significant=False
+126D | Absolute | A=Expanding_Window vs B=Rolling_Window_504D | N=252 | Mean diff=0.258780 | HLN=2.5397007822349305 | p=0.011698824982426966 | Holm p=0.1754823747364045 | Significant=False
+126D | Squared | A=Expanding_Window vs B=Rolling_Window_504D | N=252 | Mean diff=0.125552 | HLN=2.0068519989025138 | p=0.04583782388090434 | Holm p=0.6417295343326608 | Significant=False
+126D | Absolute | A=Expanding_Window vs B=Rolling_Window_756D | N=252 | Mean diff=-0.020585 | HLN=-0.36807499478846073 | p=0.7131275288553588 | Holm p=1.0 | Significant=False
+126D | Squared | A=Expanding_Window vs B=Rolling_Window_756D | N=252 | Mean diff=0.001532 | HLN=0.05158137445247421 | p=0.9589032864730274 | Holm p=1.0 | Significant=False
+126D | Absolute | A=Historical_60D_Baseline vs B=Rolling_Window_252D | N=252 | Mean diff=-0.015520 | HLN=-0.2676658618379041 | p=0.789176347616505 | Holm p=1.0 | Significant=False
+126D | Squared | A=Historical_60D_Baseline vs B=Rolling_Window_252D | N=252 | Mean diff=-0.001877 | HLN=-0.26431419166229214 | p=0.7917547235025895 | Holm p=1.0 | Significant=False
+126D | Absolute | A=Historical_60D_Baseline vs B=Rolling_Window_504D | N=252 | Mean diff=-0.015296 | HLN=-0.264379016545044 | p=0.7917048331188409 | Holm p=1.0 | Significant=False
+126D | Squared | A=Historical_60D_Baseline vs B=Rolling_Window_504D | N=252 | Mean diff=-0.001848 | HLN=-0.26144631978622157 | p=0.7939627445508887 | Holm p=1.0 | Significant=False
+126D | Absolute | A=Historical_60D_Baseline vs B=Rolling_Window_756D | N=252 | Mean diff=-0.294662 | HLN=-4.1242302477855155 | p=5.060904691077246e-05 | Holm p=0.0010627899851262217 | Significant=True
+126D | Squared | A=Historical_60D_Baseline vs B=Rolling_Window_756D | N=252 | Mean diff=-0.125868 | HLN=-3.2137193757439024 | p=0.001481818012788381 | Holm p=0.025190906217402477 | Significant=True
+126D | Absolute | A=Rolling_Window_252D vs B=Rolling_Window_504D | N=252 | Mean diff=0.000224 | HLN=0.3866303704841783 | p=0.6993574375477518 | Holm p=1.0 | Significant=False
+126D | Squared | A=Rolling_Window_252D vs B=Rolling_Window_504D | N=252 | Mean diff=0.000028 | HLN=0.4454826272264951 | p=0.656354991756291 | Holm p=1.0 | Significant=False
+126D | Absolute | A=Rolling_Window_252D vs B=Rolling_Window_756D | N=252 | Mean diff=-0.279142 | HLN=-5.193719268307598 | p=4.2643700447873104e-07 | Holm p=9.381614098532083e-06 | Significant=True
+126D | Squared | A=Rolling_Window_252D vs B=Rolling_Window_756D | N=252 | Mean diff=-0.123992 | HLN=-3.3351471667518773 | p=0.0009814661034251858 | Holm p=0.018484035435829195 | Significant=True
+126D | Absolute | A=Rolling_Window_504D vs B=Rolling_Window_756D | N=252 | Mean diff=-0.279366 | HLN=-5.24059591214339 | p=3.394350566558215e-07 | Holm p=7.807006303083894e-06 | Significant=True
+126D | Squared | A=Rolling_Window_504D vs B=Rolling_Window_756D | N=252 | Mean diff=-0.124020 | HLN=-3.3377098283203925 | p=0.0009728439703067998 | Holm p=0.018484035435829195 | Significant=True
+252D | Absolute | A=Expanding_Window vs B=Historical_60D_Baseline | N=126 | Mean diff=0.022493 | HLN=1.1550424884870745 | p=0.25027624942754684 | Holm p=1.0 | Significant=False
+252D | Squared | A=Expanding_Window vs B=Historical_60D_Baseline | N=126 | Mean diff=0.002750 | HLN=1.152132633023013 | p=0.25146529634759024 | Holm p=1.0 | Significant=False
+252D | Absolute | A=Expanding_Window vs B=Rolling_Window_252D | N=126 | Mean diff=-0.016756 | HLN=-8.565825742690926 | p=3.3659578530878757e-14 | Holm p=8.078298847410902e-13 | Significant=True
+252D | Squared | A=Expanding_Window vs B=Rolling_Window_252D | N=126 | Mean diff=-0.002374 | HLN=-4.997093890937815 | p=1.9169982322749706e-06 | Holm p=4.6007957574599294e-05 | Significant=True
+252D | Absolute | A=Expanding_Window vs B=Rolling_Window_504D | N=126 | Mean diff=-0.064689 | HLN=-11.293926545871924 | p=8.082099272039277e-21 | Holm p=2.101345810730212e-19 | Significant=True
+252D | Squared | A=Expanding_Window vs B=Rolling_Window_504D | N=126 | Mean diff=-0.013678 | HLN=-7.619692244441237 | p=5.491927105159719e-12 | Holm p=1.3729817762899298e-10 | Significant=True
+252D | Absolute | A=Historical_60D_Baseline vs B=Rolling_Window_252D | N=126 | Mean diff=-0.039250 | HLN=-1.905513553472065 | p=0.05901005284151364 | Holm p=0.5310904755736228 | Significant=False
+252D | Squared | A=Historical_60D_Baseline vs B=Rolling_Window_252D | N=126 | Mean diff=-0.005124 | HLN=-1.9939574715410642 | p=0.04833319768223959 | Holm p=0.6417295343326608 | Significant=False
+252D | Absolute | A=Historical_60D_Baseline vs B=Rolling_Window_504D | N=126 | Mean diff=-0.087182 | HLN=-4.063439144829022 | p=8.484383134843223e-05 | Holm p=0.0016968766269686447 | Significant=True
+252D | Squared | A=Historical_60D_Baseline vs B=Rolling_Window_504D | N=126 | Mean diff=-0.016428 | HLN=-4.503211710681802 | p=1.5149465053152282e-05 | Holm p=0.0003484376962225025 | Significant=True
+252D | Absolute | A=Rolling_Window_252D vs B=Rolling_Window_504D | N=126 | Mean diff=-0.047932 | HLN=-11.2320473681424 | p=1.1452425911736723e-20 | Holm p=2.863106477934181e-19 | Significant=True
+252D | Squared | A=Rolling_Window_252D vs B=Rolling_Window_504D | N=126 | Mean diff=-0.011304 | HLN=-7.854550524793207 | p=1.5762231354509619e-12 | Holm p=4.0981801521725007e-11 | Significant=True
+
+CAUTION:
+Forward realized-volatility targets overlap. Loss differentials can be serially correlated. Long-horizon results, especially 252D with only 126 test observations, require caution.
