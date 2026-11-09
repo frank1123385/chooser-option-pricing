@@ -1,0 +1,4 @@
+Horizon_Days,Best_CV_MAE,Best_Parameters,Train_Rows,Validation_Rows,Test_Rows,CV_Gap,CV_Test_Size
+20,0.09338360838030521,"{'model__max_depth': 3, 'model__min_samples_leaf': 10, 'model__n_estimators': 100}",967,473,474,20,120
+126,0.24557308831466682,"{'model__max_depth': 3, 'model__min_samples_leaf': 10, 'model__n_estimators': 100}",861,367,368,126,120
+252,0.27586525019300057,"{'model__max_depth': 3, 'model__min_samples_leaf': 5, 'model__n_estimators': 200}",735,241,242,252,120

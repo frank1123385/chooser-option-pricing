@@ -1,5 +1,7 @@
 .env
 __pycache__/
-
-# Jupyter checkpoints
+*.py[cod]
 .ipynb_checkpoints/
+.venv/
+venv/
+.streamlit/secrets.toml
